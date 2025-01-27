@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, List, Spin, Rate } from "antd";
+import { Card, List, Spin, Rate, Button } from "antd";
 import { fetchProducts } from "../api/index.tsx";
 import { Product } from "../types/index.tsx";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,22 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", position: "relative" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "20px",
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <Button type="primary" onClick={() => navigate("/cart")}>
+          Koszyk
+        </Button>
+        <Button onClick={() => navigate("/login")}>Logowanie</Button>
+      </div>
+
       <h1>Nasze produkty</h1>
       {loading ? (
         <Spin size="large" />
@@ -39,9 +54,9 @@ const HomePage: React.FC = () => {
                 onClick={() => handleProductClick(product.id)}
               >
                 <p>Cena: ${product.price}</p>
-                <p>
+                <div>
                   <Rate disabled allowHalf defaultValue={product.rating.rate} />
-                </p>
+                </div>
               </Card>
             </List.Item>
           )}

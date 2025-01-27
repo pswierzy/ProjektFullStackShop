@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Spin, Rate } from "antd";
+import { Card, Spin, Rate, Button } from "antd";
 import { fetchProductDetails } from "../api";
 import { Product } from "../types";
+import { useCart } from "../context/CartContext";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -34,11 +36,14 @@ const ProductDetails: React.FC = () => {
       >
         <p>{product.description}</p>
         <p>Cena: ${product.price}</p>
-        <p>
+        <div>
           Ocena: {product.rating.rate} ({product.rating.count} opinii)
           <br></br>
           <Rate disabled allowHalf defaultValue={product.rating.rate} />
-        </p>
+        </div>
+        <Button type="primary" onClick={() => addToCart(product)}>
+          Dodaj do koszyka
+        </Button>
       </Card>
     </div>
   );
