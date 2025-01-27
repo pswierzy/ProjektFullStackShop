@@ -24,21 +24,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div style={{ padding: "20px", position: "relative" }}>
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "20px",
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <Button type="primary" onClick={() => navigate("/cart")}>
-          Koszyk
-        </Button>
-        <Button onClick={() => navigate("/login")}>Logowanie</Button>
-      </div>
-
       <h1>Nasze produkty</h1>
       {loading ? (
         <Spin size="large" />

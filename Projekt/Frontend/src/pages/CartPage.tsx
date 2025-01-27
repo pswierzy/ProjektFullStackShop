@@ -38,6 +38,14 @@ const CartPage: React.FC = () => {
     }
   };
 
+  const calculateTotal = () => {
+    var result: number = 0;
+    cart.map(([product, quantity]) => {
+      result += product.price * quantity;
+    });
+    return result;
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Koszyk</h1>
@@ -72,6 +80,9 @@ const CartPage: React.FC = () => {
           </List.Item>
         )}
       />
+      <div className="total-price">
+        Suma całkowita: ${calculateTotal().toFixed(2)}
+      </div>
     </div>
   );
 };
