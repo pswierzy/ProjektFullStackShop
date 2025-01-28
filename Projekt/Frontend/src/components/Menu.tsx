@@ -4,6 +4,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
   HomeOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
@@ -61,6 +62,15 @@ const NavigationMenu = () => {
         label: <Link to="/register">Rejestracja</Link>,
         key: "/register",
         icon: <UserOutlined />,
+      }
+    ) : (
+      <></>
+    ),
+    isAdmin ? (
+      {
+        label: <Link to="/orders">Zamówienia</Link>,
+        key: "/orders",
+        icon: <FileTextOutlined />,
       }
     ) : (
       <></>
