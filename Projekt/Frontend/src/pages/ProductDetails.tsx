@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Card, Spin, Rate, Button, InputNumber } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Card,
+  Spin,
+  Rate,
+  Button,
+  InputNumber,
+  message,
+  Popconfirm,
+} from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { fetchProductDetails } from "../api";
 import { Product } from "../types";
 import { useCart } from "../context/CartContext";
+import axios from "axios";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -11,6 +21,7 @@ const ProductDetails: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [quantity, setQuantity] = useState<number>(1);
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -25,6 +36,20 @@ const ProductDetails: React.FC = () => {
     if (product) {
       for (let i = 0; i < quantity; i++) addToCart(product);
       setQuantity(1);
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    setLoading(true);
+    try {
+      await axios.delete(`http://localhost:3000/api/products/${id}`);
+      console.log(id);
+      message.success("Produkt został usunięty!");
+      navigate("/");
+    } catch (error) {
+      message.error("Wystąpił błąd podczas usuwania produktu.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,10 +86,30 @@ const ProductDetails: React.FC = () => {
           />
         </div>
         <br></br>
-        <Button type="primary" onClick={() => handleAddToCart()}>
+        <Button type="primary" onClick={handleAddToCart}>
           Dodaj do koszyka
         </Button>
       </Card>
+      <Popconfirm
+        title="Na pewno chcesz usunąć produkt?"
+        onConfirm={handleDeleteProduct}
+        okText="Tak"
+        cancelText="Nie"
+      >
+        <Button
+          type="primary"
+          danger
+          icon={<DeleteOutlined />}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+          }}
+        >
+          Usuń produkt
+        </Button>
+      </Popconfirm>
     </div>
   );
 };

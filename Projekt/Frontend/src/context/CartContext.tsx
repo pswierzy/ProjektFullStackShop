@@ -18,7 +18,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   useEffect(() => {
-    console.log("Aktualny koszyk:", cart);
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 

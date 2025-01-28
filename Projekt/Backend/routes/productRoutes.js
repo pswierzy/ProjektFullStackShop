@@ -54,11 +54,12 @@ router.post("/", async (req, res) => {
 // Usuń produkt
 router.delete("/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findOne({ id: req.params.id });
     if (!product)
       return res.status(404).json({ message: "Produkt nie znaleziony" });
+    console.log(product);
 
-    await product.remove(); // Usuwanie produktu
+    await Product.deleteOne({ id: req.params.id });
     res.json({ message: "Produkt został usunięty" });
   } catch (err) {
     res.status(500).json({ message: err.message });

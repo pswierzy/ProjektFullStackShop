@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Form, Input, InputNumber, Button, message, Select } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 const AddProduct: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -16,6 +18,7 @@ const AddProduct: React.FC = () => {
       });
 
       message.success("Produkt został dodany!");
+      navigate("/");
     } catch (error) {
       message.error("Wystąpił błąd podczas dodawania produktu.");
     } finally {

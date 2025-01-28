@@ -1,9 +1,20 @@
-import React from "react";
-import { List, Button, Card, InputNumber } from "antd";
+import React, { useState, useEffect } from "react";
+import { List, Button, Card, InputNumber, Spin } from "antd";
 import { useCart } from "../context/CartContext";
+import { Product } from "../types";
+import { fetchProducts } from "../api/index.tsx";
 
 const CartPage: React.FC = () => {
   const { cart, addToCart, removeFromCart } = useCart();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      const data = await fetchProducts();
+      setProducts(data);
+    };
+    loadProducts();
+  }, []);
 
   const handleQuantityChange = (productID: number, quantity: number) => {
     if (quantity > 0) {
@@ -48,34 +59,46 @@ const CartPage: React.FC = () => {
       <h1>Koszyk</h1>
       <List
         dataSource={cart}
-        renderItem={([product, quantity]) => (
-          <List.Item>
-            <Card title={product.title}>
-              <p>Cena: ${product.price}</p>
-              <p>Łączna wartość: ${(product.price * quantity).toFixed(2)}</p>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        renderItem={([product, quantity]) => {
+          const isProductAvailable = products.some(
+            (availableProduct) => availableProduct.id === product.id
+          );
+          return (
+            <List.Item>
+              <Card
+                title={product.title}
+                style={{
+                  backgroundColor: isProductAvailable ? "white" : "#f8d7da",
+                  border: isProductAvailable ? "none" : "2px solid red",
+                }}
               >
-                <span>Ilość:</span>
-                <InputNumber
-                  min={1}
-                  max={1000}
-                  value={quantity}
-                  onChange={(value: number) =>
-                    handleQuantityChange(product.id, value || 1)
-                  }
-                />
-              </div>
-              <Button
-                danger
-                onClick={() => removeAllQuantity(product.id)}
-                style={{ marginTop: "10px" }}
-              >
-                Usuń z koszyka
-              </Button>
-            </Card>
-          </List.Item>
-        )}
+                <p>Cena: ${product.price.toFixed(2)}</p>
+                <p>Łączna wartość: ${(product.price * quantity).toFixed(2)}</p>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <span>Ilość:</span>
+                  <InputNumber
+                    min={1}
+                    max={1000}
+                    value={quantity}
+                    onChange={(value: number) =>
+                      handleQuantityChange(product.id, value || 1)
+                    }
+                    disabled={!isProductAvailable}
+                  />
+                </div>
+                <Button
+                  danger
+                  onClick={() => removeAllQuantity(product.id)}
+                  style={{ marginTop: "10px" }}
+                >
+                  Usuń z koszyka
+                </Button>
+              </Card>
+            </List.Item>
+          );
+        }}
       />
       <div className="total-price">
         Suma całkowita: ${calculateTotal().toFixed(2)}

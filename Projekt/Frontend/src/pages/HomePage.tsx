@@ -47,6 +47,18 @@ const HomePage: React.FC = () => {
           )}
         />
       )}
+      <Button
+        type="primary"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          zIndex: 1000,
+        }}
+        onClick={() => navigate("/add-product")}
+      >
+        Dodaj produkt
+      </Button>
     </div>
   );
 };
