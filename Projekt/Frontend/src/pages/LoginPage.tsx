@@ -22,7 +22,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+    <div className="auth-page">
       <h1>Logowanie</h1>
       <Form onFinish={onFinish}>
         <Form.Item

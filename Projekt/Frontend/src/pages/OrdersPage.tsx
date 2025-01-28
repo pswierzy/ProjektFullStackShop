@@ -69,12 +69,12 @@ const OrdersPage: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="orders-page">
       <h1>Lista zamówień</h1>
       <Table
         dataSource={orders}
         columns={columns}
-        rowKey="id_order" // Klucz dla identyfikacji wierszy
+        rowKey="id_order"
         pagination={{ pageSize: 10 }}
         bordered
       />

@@ -82,13 +82,7 @@ const NavigationMenu = () => {
       mode="horizontal"
       selectedKeys={[location.pathname]}
       items={items}
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-        padding: "0 20px",
-        backgroundColor: "#f0f2f5",
-      }}
+      className="navigation-menu"
     />
   );
 };

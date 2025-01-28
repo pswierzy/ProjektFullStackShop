@@ -91,7 +91,7 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="cart-page">
       <h1>Koszyk</h1>
       <List
         grid={{ gutter: 16, column: 4 }}
@@ -104,10 +104,7 @@ const CartPage: React.FC = () => {
             <List.Item>
               <Card
                 title={product.title}
-                style={{
-                  backgroundColor: isProductAvailable ? "white" : "#f8d7da",
-                  border: isProductAvailable ? "none" : "2px solid red",
-                }}
+                className={isProductAvailable ? "" : "product-unavailable"}
               >
                 <p>Cena: ${product.price.toFixed(2)}</p>
                 <p>Łączna wartość: ${(product.price * quantity).toFixed(2)}</p>
