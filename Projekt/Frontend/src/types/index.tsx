@@ -18,11 +18,12 @@ export interface User {
   role: "user" | "admin";
 }
 
-export interface Review {
+export interface Order {
   id: number;
-  productId: number;
   userId: number;
-  rating: number;
-  comment: string;
-  email: string;
+  value: number;
+  items: {
+    product: Product;
+    quantity: number;
+  }[];
 }

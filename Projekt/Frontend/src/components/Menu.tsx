@@ -1,4 +1,3 @@
-// src/components/NavigationMenu.tsx
 import { Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -7,11 +6,18 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 import { useCart } from "../context/CartContext";
+import { useEffect, useState } from "react";
 
 const NavigationMenu = () => {
   const location = useLocation();
   const { cart } = useCart();
   const isLoggedIn = localStorage.getItem("user"); // Prosta weryfikacja logowania
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setIsAdmin(loggedInUser?.role === "admin");
+  }, []);
 
   // Liczba produktów w koszyku
   const cartItemsCount = cart.reduce(
@@ -50,6 +56,15 @@ const NavigationMenu = () => {
       key: isLoggedIn ? "/logout" : "/login",
       icon: <UserOutlined />,
     },
+    isAdmin || !isLoggedIn ? (
+      {
+        label: <Link to="/register">Rejestracja</Link>,
+        key: "/register",
+        icon: <UserOutlined />,
+      }
+    ) : (
+      <></>
+    ),
   ];
 
   return (

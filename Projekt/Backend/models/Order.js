@@ -6,12 +6,12 @@ const orderSchema = new mongoose.Schema({
   value: { type: Number, required: true },
   items: [
     {
-      productId: { type: Number, required: true },
+      product: { type: Object, required: true },
       quantity: { type: Number, required: true },
     },
   ],
 });
 
-orderSchema.plugin(AutoIncrement, { inc_field: "id" });
+orderSchema.plugin(AutoIncrement, { inc_field: "id_order" });
 
 module.exports = mongoose.model("Order", orderSchema);

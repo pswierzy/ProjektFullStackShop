@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { List, Button, Card, InputNumber, Spin } from "antd";
+import { List, Button, Card, InputNumber, message } from "antd";
 import { useCart } from "../context/CartContext";
 import { Product } from "../types";
 import { fetchProducts } from "../api/index.tsx";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CartPage: React.FC = () => {
   const { cart, addToCart, removeFromCart } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
+  const isLoggedIn = localStorage.getItem("user");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -54,10 +58,43 @@ const CartPage: React.FC = () => {
     return result;
   };
 
+  const handleBuyingCart = async () => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const userId: number = loggedInUser.id_user;
+    const totalValue = calculateTotal();
+
+    const values = {
+      userId,
+      value: totalValue,
+      items: cart.map(([product, quantity]) => ({
+        product,
+        quantity,
+      })),
+    };
+    console.log(values);
+
+    try {
+      await axios.post("http://localhost:3000/api/orders", values, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      message.success("Zamówienie zostało złożone!");
+
+      cart.map(([product, _]) => {
+        removeAllQuantity(product.id);
+      });
+
+      navigate("/");
+    } catch (error) {
+      message.error("Wystąpił błąd podczas składania zamówienia.");
+    }
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Koszyk</h1>
       <List
+        grid={{ gutter: 16, column: 4 }}
         dataSource={cart}
         renderItem={([product, quantity]) => {
           const isProductAvailable = products.some(
@@ -103,6 +140,14 @@ const CartPage: React.FC = () => {
       <div className="total-price">
         Suma całkowita: ${calculateTotal().toFixed(2)}
       </div>
+      <Button
+        disabled={!isLoggedIn}
+        primal
+        onClick={handleBuyingCart}
+        style={{ marginTop: "10px" }}
+      >
+        {isLoggedIn ? "Kup" : "Aby kupić musisz się zalogować"}
+      </Button>
     </div>
   );
 };

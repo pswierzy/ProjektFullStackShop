@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product, User } from "../types";
+import { Product, User, Order } from "../types";
 
 const API_URL = "http://localhost:3000/api";
 
@@ -41,5 +41,16 @@ export const loginUser = async (
   } catch (error) {
     console.error("Błąd logowania:", error);
     return null;
+  }
+};
+
+// Pobierz wszystkie zamówienia
+export const fetchOrders = async (): Promise<Order[]> => {
+  try {
+    const response = await axios.get<Order[]>(`${API_URL}/orders`);
+    return response.data;
+  } catch (error) {
+    console.error("Błąd pobierania zamówień:", error);
+    return [];
   }
 };
