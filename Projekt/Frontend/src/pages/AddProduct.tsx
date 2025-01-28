@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Form, Input, InputNumber, Button, message, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Alert, Form, Input, InputNumber, Button, message, Select } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,12 @@ const { Option } = Select;
 const AddProduct: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setIsAdmin(loggedInUser?.role === "admin");
+  }, []);
 
   const onFinish = async (values: any) => {
     setLoading(true);
@@ -26,7 +32,7 @@ const AddProduct: React.FC = () => {
     }
   };
 
-  return (
+  return isAdmin ? (
     <div style={{ maxWidth: 600, margin: "20px auto" }}>
       <h2>Dodaj nowy produkt</h2>
       <Form layout="vertical" onFinish={onFinish}>
@@ -117,6 +123,15 @@ const AddProduct: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
+    </div>
+  ) : (
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <Alert
+        message="Musisz być adminem, aby dodać produkt!"
+        type="warning"
+        showIcon
+        style={{ textAlign: "center", fontSize: "18px" }}
+      />
     </div>
   );
 };

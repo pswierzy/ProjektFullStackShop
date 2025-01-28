@@ -33,10 +33,11 @@ export const loginUser = async (
   password: string
 ): Promise<User | null> => {
   try {
-    const response = await axios.get<User[]>(`${API_URL}/users`, {
-      params: { username, password },
-    });
-    return response.data[0] || null; // Zwróć pierwsze dopasowanie lub null, jeśli brak wyników
+    const response = await axios.get<User[]>(`${API_URL}/users`);
+    const correctUser = response.data.find(
+      (user) => user.username === username && user.password === password
+    );
+    return correctUser || null; // Zwróć pierwsze dopasowanie lub null, jeśli brak wyników
   } catch (error) {
     console.error("Błąd logowania:", error);
     return null;

@@ -8,6 +8,12 @@ const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setIsAdmin(loggedInUser?.role === "admin");
+  }, []);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -47,18 +53,22 @@ const HomePage: React.FC = () => {
           )}
         />
       )}
-      <Button
-        type="primary"
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          zIndex: 1000,
-        }}
-        onClick={() => navigate("/add-product")}
-      >
-        Dodaj produkt
-      </Button>
+      {isAdmin ? (
+        <Button
+          type="primary"
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+          }}
+          onClick={() => navigate("/add-product")}
+        >
+          Dodaj produkt
+        </Button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

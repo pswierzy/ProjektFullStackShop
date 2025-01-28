@@ -26,8 +26,6 @@ router.get("/:id", async (req, res) => {
 
 // Dodaj nowy produkt
 router.post("/", async (req, res) => {
-  console.log("Otrzymane dane:", req.body);
-
   const { title, price, description, category, image, rating } = req.body;
 
   const newProduct = new Product({

@@ -22,6 +22,12 @@ const ProductDetails: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+    setIsAdmin(loggedInUser?.role === "admin");
+  }, []);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -90,26 +96,30 @@ const ProductDetails: React.FC = () => {
           Dodaj do koszyka
         </Button>
       </Card>
-      <Popconfirm
-        title="Na pewno chcesz usunąć produkt?"
-        onConfirm={handleDeleteProduct}
-        okText="Tak"
-        cancelText="Nie"
-      >
-        <Button
-          type="primary"
-          danger
-          icon={<DeleteOutlined />}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: 1000,
-          }}
+      {isAdmin ? (
+        <Popconfirm
+          title="Na pewno chcesz usunąć produkt?"
+          onConfirm={handleDeleteProduct}
+          okText="Tak"
+          cancelText="Nie"
         >
-          Usuń produkt
-        </Button>
-      </Popconfirm>
+          <Button
+            type="primary"
+            danger
+            icon={<DeleteOutlined />}
+            style={{
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              zIndex: 1000,
+            }}
+          >
+            Usuń produkt
+          </Button>
+        </Popconfirm>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

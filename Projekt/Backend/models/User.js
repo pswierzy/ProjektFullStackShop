@@ -7,6 +7,6 @@ const userSchema = new mongoose.Schema({
   role: { type: String, required: true },
 });
 
-userSchema.plugin(AutoIncrement, { inc_field: "id" });
+userSchema.plugin(AutoIncrement, { inc_field: "id_user" });
 
 module.exports = mongoose.model("User", userSchema);

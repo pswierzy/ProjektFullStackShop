@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
 const cors = require("cors");
 
 const uri =
@@ -27,6 +28,7 @@ mongoose
 
 // Endpointy
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Serwer działa na porcie ${PORT}`);
