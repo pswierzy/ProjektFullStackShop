@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product, User } from "../types";
 
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:3000/api";
 
 // Pobierz wszystkie produkty
 export const fetchProducts = async (): Promise<Product[]> => {

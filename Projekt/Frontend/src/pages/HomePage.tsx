@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
                 cover={<img alt={product.title} src={product.image} />}
                 onClick={() => handleProductClick(product.id)}
               >
-                <p>Cena: ${product.price}</p>
+                <p>Cena: ${product.price.toFixed(2)}</p>
                 <div>
                   <Rate disabled allowHalf defaultValue={product.rating.rate} />
                 </div>

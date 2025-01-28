@@ -7,18 +7,15 @@ const CartPage: React.FC = () => {
 
   const handleQuantityChange = (productID: number, quantity: number) => {
     if (quantity > 0) {
-      // Aktualizujemy ilość przez dodanie do koszyka brakujących produktów
       const productInCart = cart.find(([product]) => product.id === productID);
       if (productInCart) {
         const [product, currentQuantity] = productInCart;
         const difference = quantity - currentQuantity;
         if (difference > 0) {
-          // Dodajemy brakujące sztuki
           for (let i = 0; i < difference; i++) {
             addToCart(product);
           }
         } else {
-          // Usuwamy nadmiarowe sztuki
           for (let i = 0; i < Math.abs(difference); i++) {
             removeFromCart(product);
           }

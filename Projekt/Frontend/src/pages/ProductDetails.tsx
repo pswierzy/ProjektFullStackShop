@@ -43,7 +43,7 @@ const ProductDetails: React.FC = () => {
         cover={<img alt={product.title} src={product.image} />}
       >
         <p>{product.description}</p>
-        <p>Cena: ${product.price}</p>
+        <p>Cena: ${product.price.toFixed(2)}</p>
         <div>
           Ocena: {product.rating.rate} ({product.rating.count} opinii)
           <br></br>
@@ -60,7 +60,7 @@ const ProductDetails: React.FC = () => {
             style={{ width: "60px", marginRight: "10px" }}
           />
         </div>
-
+        <br></br>
         <Button type="primary" onClick={() => handleAddToCart()}>
           Dodaj do koszyka
         </Button>

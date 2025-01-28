@@ -1,5 +1,33 @@
+const mongoose = require("mongoose");
 const express = require("express");
+const productRoutes = require("./routes/productRoutes");
+const cors = require("cors");
+
+const uri =
+  "mongodb+srv://admin:admin1!@projektwdai.auj77.mongodb.net/?retryWrites=true&w=majority&appName=ProjektWDAI";
+
 const app = express();
+const PORT = 3000;
+
+app.use(cors());
 app.use(express.json());
-app.get("/", (req, res) => res.send("Backend działa!"));
-app.listen(5000, () => console.log("Serwer działa na porcie 5000"));
+
+const clientOptions = {
+  serverApi: { version: "1", strict: true, deprecationErrors: true },
+};
+
+mongoose
+  .connect(uri, clientOptions)
+  .then(() => {
+    console.log("Połączono z MongoDB!");
+  })
+  .catch((err) => {
+    console.error("Błąd połączenia z MongoDB:", err);
+  });
+
+// Endpointy
+app.use("/api/products", productRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Serwer działa na porcie ${PORT}`);
+});
