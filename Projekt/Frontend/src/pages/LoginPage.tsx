@@ -16,13 +16,14 @@ const LoginPage: React.FC = () => {
       message.success("Zalogowano pomyślnie!");
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
+      window.parent.location = window.parent.location.href;
     } else {
       message.error("Nieprawidłowa nazwa użytkownika lub hasło.");
     }
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+    <div className="auth-page">
       <h1>Logowanie</h1>
       <Form onFinish={onFinish}>
         <Form.Item

@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px", position: "relative" }}>
+    <div className="home-page">
       <h1>Nasze produkty</h1>
       {loading ? (
         <Spin size="large" />
@@ -42,6 +42,7 @@ const HomePage: React.FC = () => {
               <Card
                 title={product.title}
                 cover={<img alt={product.title} src={product.image} />}
+                className="product-card"
                 onClick={() => handleProductClick(product.id)}
               >
                 <p>Cena: ${product.price.toFixed(2)}</p>
@@ -53,21 +54,20 @@ const HomePage: React.FC = () => {
           )}
         />
       )}
-      {isAdmin ? (
+      {isAdmin && (
         <Button
           type="primary"
+          className="add-product-btn"
+          onClick={() => navigate("/add-product")}
           style={{
             position: "fixed",
             bottom: "20px",
             right: "20px",
             zIndex: 1000,
           }}
-          onClick={() => navigate("/add-product")}
         >
           Dodaj produkt
         </Button>
-      ) : (
-        <></>
       )}
     </div>
   );

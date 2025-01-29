@@ -1,0 +1,322 @@
+/* Ogólne */
+body {
+  background-image: url("./resources/backgroudjpg.jpg");
+  font-family: "Arial", sans-serif;
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.5);
+}
+
+/* NavigationMenu */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ant-menu {
+  align-items: center;
+  background-color: #8b0000;
+  color: gold;
+  border-bottom: 3px solid gold;
+  width: 96%;
+}
+
+.ant-menu-item {
+  color: white !important;
+}
+
+/* AddProduct */
+.add-product {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: black;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.5);
+  border: 3px solid gold;
+  color: white;
+}
+
+.add-product h2 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Koszyk - CartPage */
+.cart-page {
+  padding: 20px;
+}
+
+.cart-page .ant-card {
+  transition: box-shadow 0.3s;
+  border: 3px solid gold;
+  color: white;
+}
+
+.product-unavailable {
+  background-color: #4e1111 !important;
+}
+
+.cart-page .product-unavailable:hover {
+  box-shadow: 0 12px 24px rgba(244, 61, 61, 0.5) !important;
+}
+
+.cart-page .ant-card-meta-title,
+.cart-page .ant-card-meta-description {
+  color: white !important;
+}
+
+.cart-page .ant-card:hover {
+  box-shadow: 0 12px 24px rgba(255, 215, 0, 0.5);
+}
+
+.cart-page .total-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: white;
+}
+
+/* HomePage */
+.home-page {
+  padding: 20px;
+}
+
+.home-page .ant-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 3px solid gold;
+  background: black;
+  color: white;
+}
+
+.home-page .ant-card-meta-title,
+.home-page .ant-card-meta-description {
+  color: white !important;
+}
+
+.home-page .ant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(255, 215, 0, 0.5);
+}
+
+/* Karta produktu */
+.product-card .ant-card-cover {
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+.product-card .ant-card-cover img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.product-details {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.big-product-card {
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 3px solid gold;
+  background: black;
+  color: white;
+}
+
+.big-product-card:hover {
+  box-shadow: 0 12px 24px rgba(255, 215, 0, 0.5);
+}
+
+.big-product-card .ant-card-cover {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+.big-product-card .ant-card-cover img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 25vw;
+  object-fit: contain;
+}
+/* LoginPage i RegisterPage */
+.auth-page {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: black;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.5);
+  border: 3px solid gold;
+  color: white;
+}
+
+.auth-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Przyciski */
+.ant-btn-primary {
+  background-color: gold;
+  border-color: gold;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0 6px 12px rgba(255, 215, 0, 0.5);
+}
+
+.ant-btn-primary:hover {
+  background-color: #ffd700;
+  border-color: #ffd700;
+}
+
+.ant-btn-danger {
+  background-color: #8b0000;
+  border-color: gold;
+  color: white;
+}
+
+.ant-btn-danger:hover {
+  background-color: #b22222;
+}
+
+/* Globalne elementy */
+.ant-card {
+  border-radius: 15px;
+  background-color: black;
+  color: white;
+}
+
+.ant-card-head-title,
+.ant-card-meta-title {
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.ant-input,
+.ant-input-number,
+.ant-select-selector {
+  border-radius: 5px;
+  background: black !important;
+  color: white !important;
+  border: 2px solid gold;
+}
+
+.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.ant-form-item-label > label {
+  font-weight: bold;
+  color: white !important;
+}
+
+/* Dodatkowe style dla komponentów Ant Design */
+.ant-card-meta-title,
+.ant-card-meta-description,
+.ant-select-selection-item,
+.ant-select-selection-placeholder,
+.ant-form-item-explain,
+.ant-input-number-input {
+  color: white !important;
+}
+
+.ant-select-dropdown {
+  background-color: black !important;
+}
+
+.ant-select-item {
+  color: white !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: #8b0000 !important;
+}
+
+.ant-select-item-option-active {
+  background-color: #b22222 !important;
+}
+
+/* OrdersPage */
+.orders-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.orders-page {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.5);
+  border: 3px solid gold;
+}
+
+.orders-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.orders-page .ant-table {
+  border: 2px solid gold;
+  background-color: black;
+}
+
+.orders-page .ant-table-thead > tr > th {
+  color: white;
+  background-color: #8b0000;
+}
+
+.orders-page .ant-table-tbody > tr > td {
+  color: white;
+  background-color: black;
+}
+
+.orders-page .ant-table-tbody > tr:hover > td {
+  background-color: #303030 !important;
+}
+
+.orders-page .ant-pagination-item-active {
+  border-color: gold;
+}
+
+.orders-page .ant-pagination-item-active a {
+  color: black;
+}
+
+.orders-page .ant-pagination-item :hover {
+  background-color: white;
+}

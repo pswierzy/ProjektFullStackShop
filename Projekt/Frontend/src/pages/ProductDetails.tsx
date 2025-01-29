@@ -68,27 +68,26 @@ const ProductDetails: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="product-details">
       <Card
         title={product.title}
         cover={<img alt={product.title} src={product.image} />}
+        className="big-product-card"
       >
         <p>{product.description}</p>
         <p>Cena: ${product.price.toFixed(2)}</p>
         <div>
           Ocena: {product.rating.rate} ({product.rating.count} opinii)
-          <br></br>
           <Rate disabled allowHalf defaultValue={product.rating.rate} />
         </div>
-
-        <div style={{ marginTop: "10px" }}>
+        <br></br>
+        <div className="product-quantity">
           <span>Ilość: </span>
           <InputNumber
             min={1}
             max={100}
             value={quantity}
             onChange={(value: number) => setQuantity(value || 1)}
-            style={{ width: "60px", marginRight: "10px" }}
           />
         </div>
         <br></br>
@@ -96,7 +95,7 @@ const ProductDetails: React.FC = () => {
           Dodaj do koszyka
         </Button>
       </Card>
-      {isAdmin ? (
+      {isAdmin && (
         <Popconfirm
           title="Na pewno chcesz usunąć produkt?"
           onConfirm={handleDeleteProduct}
@@ -107,6 +106,7 @@ const ProductDetails: React.FC = () => {
             type="primary"
             danger
             icon={<DeleteOutlined />}
+            className="delete-product-btn"
             style={{
               position: "fixed",
               bottom: "20px",
@@ -117,8 +117,6 @@ const ProductDetails: React.FC = () => {
             Usuń produkt
           </Button>
         </Popconfirm>
-      ) : (
-        <></>
       )}
     </div>
   );

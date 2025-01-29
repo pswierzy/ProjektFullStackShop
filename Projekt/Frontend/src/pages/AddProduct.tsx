@@ -33,7 +33,7 @@ const AddProduct: React.FC = () => {
   };
 
   return isAdmin ? (
-    <div style={{ maxWidth: 600, margin: "20px auto" }}>
+    <div className="add-product">
       <h2>Dodaj nowy produkt</h2>
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
@@ -125,9 +125,9 @@ const AddProduct: React.FC = () => {
       </Form>
     </div>
   ) : (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+    <div className="auth-page">
       <Alert
-        message="Musisz być adminem, aby dodać produkt!"
+        message="Brak dostępu do tej strony!"
         type="warning"
         showIcon
         style={{ textAlign: "center", fontSize: "18px" }}

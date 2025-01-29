@@ -11,6 +11,7 @@ const CartPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const isLoggedIn = localStorage.getItem("user");
   const navigate = useNavigate();
+  const [allAvailable, setAllAvailable] = useState<boolean>(false);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -19,6 +20,15 @@ const CartPage: React.FC = () => {
     };
     loadProducts();
   }, []);
+
+  useEffect(() => {
+    let result: boolean = true;
+    cart.map(([product, quantity]) => {
+      if (!products.some((someProduct) => (someProduct.id = product.id)))
+        result = false;
+    });
+    setAllAvailable(result);
+  }, [cart]);
 
   const handleQuantityChange = (productID: number, quantity: number) => {
     if (quantity > 0) {
@@ -59,6 +69,11 @@ const CartPage: React.FC = () => {
   };
 
   const handleBuyingCart = async () => {
+    if (cart.length === 0) {
+      message.warning("Dodaj coś do koszyka żeby kupić!");
+      return;
+    }
+
     const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
     const userId: number = loggedInUser.id_user;
     const totalValue = calculateTotal();
@@ -91,7 +106,7 @@ const CartPage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="cart-page">
       <h1>Koszyk</h1>
       <List
         grid={{ gutter: 16, column: 4 }}
@@ -104,10 +119,7 @@ const CartPage: React.FC = () => {
             <List.Item>
               <Card
                 title={product.title}
-                style={{
-                  backgroundColor: isProductAvailable ? "white" : "#f8d7da",
-                  border: isProductAvailable ? "none" : "2px solid red",
-                }}
+                className={isProductAvailable ? "" : "product-unavailable"}
               >
                 <p>Cena: ${product.price.toFixed(2)}</p>
                 <p>Łączna wartość: ${(product.price * quantity).toFixed(2)}</p>
@@ -126,7 +138,7 @@ const CartPage: React.FC = () => {
                   />
                 </div>
                 <Button
-                  danger
+                  type="danger"
                   onClick={() => removeAllQuantity(product.id)}
                   style={{ marginTop: "10px" }}
                 >
@@ -141,8 +153,8 @@ const CartPage: React.FC = () => {
         Suma całkowita: ${calculateTotal().toFixed(2)}
       </div>
       <Button
-        disabled={!isLoggedIn}
-        primal
+        disabled={!isLoggedIn || !allAvailable}
+        type="primary"
         onClick={handleBuyingCart}
         style={{ marginTop: "10px" }}
       >
