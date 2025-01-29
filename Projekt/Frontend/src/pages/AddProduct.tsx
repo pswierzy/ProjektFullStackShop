@@ -127,7 +127,7 @@ const AddProduct: React.FC = () => {
   ) : (
     <div className="auth-page">
       <Alert
-        message="Musisz być adminem, aby dodać produkt!"
+        message="Brak dostępu do tej strony!"
         type="warning"
         showIcon
         style={{ textAlign: "center", fontSize: "18px" }}

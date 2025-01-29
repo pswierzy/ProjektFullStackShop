@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
+import logo from "../resources/logo.jpg";
 
 const NavigationMenu = () => {
   const location = useLocation();
@@ -78,12 +79,17 @@ const NavigationMenu = () => {
   ];
 
   return (
-    <Menu
-      mode="horizontal"
-      selectedKeys={[location.pathname]}
-      items={items}
-      className="navigation-menu"
-    />
+    <div className="header">
+      <div className="logo">
+        <img src={logo} alt="Logo" style={{ height: "80px" }} />
+      </div>
+      <Menu
+        mode="horizontal"
+        selectedKeys={[location.pathname]}
+        items={items}
+        className="navigation-menu"
+      />
+    </div>
   );
 };
 

@@ -72,7 +72,7 @@ const ProductDetails: React.FC = () => {
       <Card
         title={product.title}
         cover={<img alt={product.title} src={product.image} />}
-        className="product-card"
+        className="big-product-card"
       >
         <p>{product.description}</p>
         <p>Cena: ${product.price.toFixed(2)}</p>
@@ -80,6 +80,7 @@ const ProductDetails: React.FC = () => {
           Ocena: {product.rating.rate} ({product.rating.count} opinii)
           <Rate disabled allowHalf defaultValue={product.rating.rate} />
         </div>
+        <br></br>
         <div className="product-quantity">
           <span>Ilość: </span>
           <InputNumber
@@ -89,6 +90,7 @@ const ProductDetails: React.FC = () => {
             onChange={(value: number) => setQuantity(value || 1)}
           />
         </div>
+        <br></br>
         <Button type="primary" onClick={handleAddToCart}>
           Dodaj do koszyka
         </Button>
@@ -105,6 +107,12 @@ const ProductDetails: React.FC = () => {
             danger
             icon={<DeleteOutlined />}
             className="delete-product-btn"
+            style={{
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              zIndex: 1000,
+            }}
           >
             Usuń produkt
           </Button>

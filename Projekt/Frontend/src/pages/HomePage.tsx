@@ -59,6 +59,12 @@ const HomePage: React.FC = () => {
           type="primary"
           className="add-product-btn"
           onClick={() => navigate("/add-product")}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+          }}
         >
           Dodaj produkt
         </Button>

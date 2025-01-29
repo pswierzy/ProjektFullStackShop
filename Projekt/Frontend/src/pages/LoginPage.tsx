@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
       message.success("Zalogowano pomyślnie!");
       localStorage.setItem("user", JSON.stringify(user));
       navigate("/");
+      window.parent.location = window.parent.location.href;
     } else {
       message.error("Nieprawidłowa nazwa użytkownika lub hasło.");
     }
