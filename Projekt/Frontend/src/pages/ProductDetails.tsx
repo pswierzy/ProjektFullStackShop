@@ -87,7 +87,7 @@ const ProductDetails: React.FC = () => {
             min={1}
             max={100}
             value={quantity}
-            onChange={(value: number) => setQuantity(value || 1)}
+            onChange={(value: number | null) => setQuantity(value || 1)}
           />
         </div>
         <br></br>

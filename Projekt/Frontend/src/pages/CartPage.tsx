@@ -23,12 +23,12 @@ const CartPage: React.FC = () => {
 
   useEffect(() => {
     let result: boolean = true;
-    cart.map(([product, quantity]) => {
+    cart.map(([product, _]) => {
       if (!products.some((someProduct) => (someProduct.id = product.id)))
         result = false;
     });
     setAllAvailable(result);
-  }, [cart]);
+  });
 
   const handleQuantityChange = (productID: number, quantity: number) => {
     if (quantity > 0) {
@@ -131,14 +131,14 @@ const CartPage: React.FC = () => {
                     min={1}
                     max={1000}
                     value={quantity}
-                    onChange={(value: number) =>
+                    onChange={(value: number | null) =>
                       handleQuantityChange(product.id, value || 1)
                     }
                     disabled={!isProductAvailable}
                   />
                 </div>
                 <Button
-                  type="danger"
+                  type="dashed"
                   onClick={() => removeAllQuantity(product.id)}
                   style={{ marginTop: "10px" }}
                 >
@@ -156,7 +156,7 @@ const CartPage: React.FC = () => {
         disabled={!isLoggedIn || !allAvailable}
         type="primary"
         onClick={handleBuyingCart}
-        style={{ marginTop: "10px" }}
+        style={{ marginTop: "10px", color: "white" }}
       >
         {isLoggedIn ? "Kup" : "Aby kupić musisz się zalogować"}
       </Button>

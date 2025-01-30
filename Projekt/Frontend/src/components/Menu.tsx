@@ -1,4 +1,4 @@
-import { Menu } from "antd";
+import { Menu, MenuProps } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   ShoppingCartOutlined,
@@ -9,6 +9,8 @@ import {
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
 import logo from "../resources/logo.jpg";
+
+type MenuItem = Required<MenuProps>["items"][number];
 
 const NavigationMenu = () => {
   const location = useLocation();
@@ -27,7 +29,7 @@ const NavigationMenu = () => {
     0
   );
 
-  const items = [
+  const unfilteredItems = [
     {
       label: <Link to="/">Strona główna</Link>,
       key: "/",
@@ -58,25 +60,19 @@ const NavigationMenu = () => {
       key: isLoggedIn ? "/logout" : "/login",
       icon: <UserOutlined />,
     },
-    isAdmin || !isLoggedIn ? (
-      {
-        label: <Link to="/register">Rejestracja</Link>,
-        key: "/register",
-        icon: <UserOutlined />,
-      }
-    ) : (
-      <></>
-    ),
-    isAdmin ? (
-      {
-        label: <Link to="/orders">Zamówienia</Link>,
-        key: "/orders",
-        icon: <FileTextOutlined />,
-      }
-    ) : (
-      <></>
-    ),
+    (isAdmin || !isLoggedIn) && {
+      label: <Link to="/register">Rejestracja</Link>,
+      key: "/register",
+      icon: <UserOutlined />,
+    },
+    isAdmin && {
+      label: <Link to="/orders">Zamówienia</Link>,
+      key: "/orders",
+      icon: <FileTextOutlined />,
+    },
   ];
+
+  const items: MenuItem[] = unfilteredItems.filter(Boolean) as MenuItem[];
 
   return (
     <div className="header">

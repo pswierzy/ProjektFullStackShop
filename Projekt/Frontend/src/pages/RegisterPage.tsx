@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, message, Select } from "antd";
 import axios from "axios";
 
+const { Option } = Select;
+
 const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();

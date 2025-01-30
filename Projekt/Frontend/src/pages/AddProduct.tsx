@@ -69,11 +69,9 @@ const AddProduct: React.FC = () => {
           rules={[{ required: true, message: "Wybierz kategorię!" }]}
         >
           <Select placeholder="Wybierz kategorię">
-            <Option value="electronics">Elektronika</Option>
-            <Option value="fashion">Moda</Option>
-            <Option value="home">Dom</Option>
-            <Option value="beauty">Uroda</Option>
-            <Option value="sports">Sport</Option>
+            <Option value="maszyny">Maszyny</Option>
+            <Option value="gry">Gry</Option>
+            <Option value="karty">Karty</Option>
           </Select>
         </Form.Item>
 
