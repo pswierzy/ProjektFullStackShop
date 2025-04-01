@@ -5,9 +5,6 @@ const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const cors = require("cors");
 
-const uri =
-  "mongodb+srv://admin:admin1!@projektwdai.auj77.mongodb.net/?retryWrites=true&w=majority&appName=ProjektWDAI";
-
 const app = express();
 const PORT = 3000;
 
