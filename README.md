@@ -29,21 +29,23 @@ Casino Store to pełnoprawna aplikacja internetowa, umożliwiająca użytkowniko
 - MongoDB + Mongoose
 - CORS (obsługa polityki Cross-Origin Resource Sharing)
 
-## 📦 Wymagane biblioteki
+## 📦 Zależności Frontendu
 
-Aby uruchomić projekt, należy zainstalować następujące zależności:
+Projekt frontendowy oparty na React 18, TypeScript i Vite. Używane biblioteki to m.in.:
 
-### Backend:
+- **Ant Design** (`antd`) – zestaw gotowych komponentów UI
+- **React Router** (`react-router-dom`) – obsługa routingu
+- **Axios** – komunikacja z backendem (HTTP)
+- **ESLint + TypeScript** – zapewnienie jakości kodu i typowanie
 
-```sh
-npm install express mongoose cors body-parser
-```
+## 🔧 Zależności Backendowe
 
-### Frontend:
+Projekt backendowy korzysta z Express i MongoDB:
 
-```sh
-npm install react-router-dom axios antd @vitejs/plugin-react
-```
+- **Express** – serwer HTTP i routing
+- **Mongoose** – integracja z MongoDB
+- **Dotenv** – konfiguracja zmiennych środowiskowych
+- **CORS** – pozwala na żądania z frontendu
 
 ## 📂 Struktura projektu
 
