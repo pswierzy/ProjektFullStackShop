@@ -12,23 +12,6 @@ Casino Store to pełnoprawna aplikacja internetowa, umożliwiająca użytkowniko
 ✅ Historia zamówień użytkownika oraz podgląd aktualnych zamówień.\
 ✅ Dynamiczna nawigacja i przejrzysty interfejs użytkownika.
 
-## 🛠️ Technologie
-
-### Frontend:
-
-- React + TypeScript
-- Vite
-- Ant Design (biblioteka komponentów UI)
-- Axios (do komunikacji z backendem)
-- React Router (zarządzanie trasami)
-
-### Backend:
-
-- Node.js
-- Express.js
-- MongoDB + Mongoose
-- CORS (obsługa polityki Cross-Origin Resource Sharing)
-
 ## 📦 Zależności Frontendu
 
 Projekt frontendowy oparty na React 18, TypeScript i Vite. Używane biblioteki to m.in.:
