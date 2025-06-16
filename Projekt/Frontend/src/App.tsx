@@ -8,6 +8,9 @@ import NavigationMenu from "./components/Menu";
 import AddProduct from "./pages/AddProduct";
 import RegisterPage from "./pages/RegisterPage";
 import OrdersPage from "./pages/OrdersPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import AddCategory from "./pages/AddCategory";
+import CategoryProductsPage from "./pages/CategoryProductsPage";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +24,12 @@ const App: React.FC = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/add-category" element={<AddCategory />} />
+        <Route
+          path="/category/:categoryName"
+          element={<CategoryProductsPage />}
+        />
       </Routes>
     </Router>
   );

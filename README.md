@@ -27,6 +27,7 @@ Projekt backendowy korzysta z Express i MongoDB:
 
 - **Express** – serwer HTTP i routing
 - **Mongoose** – integracja z MongoDB
+- **Bcyrpt** - bezpieczne przechowywanie haseł w bazie danych
 - **Dotenv** – konfiguracja zmiennych środowiskowych
 - **CORS** – pozwala na żądania z frontendu
 
@@ -91,10 +92,10 @@ Aplikacja będzie dostępna pod adresem `http://localhost:5173/`.
 
 ## 🗄️ Konfiguracja bazy danych
 
-Baza danych znajduje się na **MongoDB Atlas**. Aby poprawnie skonfigurować backend, należy w pliku `app.js` w katalogu `Backend` i dodać:
+Baza danych znajduje się na **MongoDB Atlas**. Aby poprawnie skonfigurować backend, należy w pliku w katalogu `Backend` dodać plik `.env`:
 
 ```javascipt
-const uri = "TWÓJ_LINK_DO_BAZY_DANYCH";
+MONGODB_URI = "moj_link_do_bazy_mongodb";
 ```
 
 ## 📷 Podgląd

@@ -1,9 +1,8 @@
 import axios from "axios";
-import { Product, User, Order } from "../types";
+import { Product, User, Order, Rating, Category } from "../types";
 
 const API_URL = "http://localhost:3000/api";
 
-// Pobierz wszystkie produkty
 export const fetchProducts = async (): Promise<Product[]> => {
   try {
     const response = await axios.get<Product[]>(`${API_URL}/products`);
@@ -14,9 +13,8 @@ export const fetchProducts = async (): Promise<Product[]> => {
   }
 };
 
-// Pobierz pojedynczy produkt
 export const fetchProductDetails = async (
-  id: number
+  id: string
 ): Promise<Product | null> => {
   try {
     const response = await axios.get<Product>(`${API_URL}/products/${id}`);
@@ -27,24 +25,24 @@ export const fetchProductDetails = async (
   }
 };
 
-// Logowanie użytkownika
 export const loginUser = async (
-  username: string,
+  name: string,
   password: string
 ): Promise<User | null> => {
   try {
-    const response = await axios.get<User[]>(`${API_URL}/users`);
-    const correctUser = response.data.find(
-      (user) => user.username === username && user.password === password
+    const response = await axios.post<{ user: User }>(
+      `${API_URL}/users/login`,
+      {
+        name,
+        password,
+      }
     );
-    return correctUser || null; // Zwróć pierwsze dopasowanie lub null, jeśli brak wyników
+    return response.data.user;
   } catch (error) {
-    console.error("Błąd logowania:", error);
     return null;
   }
 };
 
-// Pobierz wszystkie zamówienia
 export const fetchOrders = async (): Promise<Order[]> => {
   try {
     const response = await axios.get<Order[]>(`${API_URL}/orders`);
@@ -52,5 +50,60 @@ export const fetchOrders = async (): Promise<Order[]> => {
   } catch (error) {
     console.error("Błąd pobierania zamówień:", error);
     return [];
+  }
+};
+
+export const fetchUserOrders = async (userId: string): Promise<Order[]> => {
+  try {
+    const response = await axios.get<Order[]>(
+      `${API_URL}/orders/user/${userId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Błąd pobierania zamówień:", error);
+    return [];
+  }
+};
+
+export const addProductRating = async (
+  productId: string,
+  rating: Omit<Rating, "id">
+): Promise<Product | null> => {
+  try {
+    const response = await axios.post<Product>(
+      `${API_URL}/products/${productId}/ratings`,
+      rating
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Błąd dodawania oceny:", error);
+    return null;
+  }
+};
+
+export const fetchCategories = async (): Promise<Category[]> => {
+  try {
+    const response = await axios.get<Category[]>(`${API_URL}/categories`);
+    return response.data;
+  } catch (error) {
+    console.error("Błąd pobierania kategorii:", error);
+    return [];
+  }
+};
+
+export const addCategory = async (
+  name: string,
+  superset: string | null
+): Promise<Category | null> => {
+  try {
+    console.log(name, superset);
+    const response = await axios.post<Category>(`${API_URL}/categories`, {
+      name,
+      superset: superset || undefined,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Błąd dodawania oceny:", error);
+    return null;
   }
 };

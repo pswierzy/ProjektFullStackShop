@@ -24,15 +24,15 @@ const CartPage: React.FC = () => {
   useEffect(() => {
     let result: boolean = true;
     cart.map(([product, _]) => {
-      if (!products.some((someProduct) => (someProduct.id = product.id)))
+      if (!products.some((someProduct) => someProduct._id === product._id))
         result = false;
     });
     setAllAvailable(result);
   });
 
-  const handleQuantityChange = (productID: number, quantity: number) => {
+  const handleQuantityChange = (productID: string, quantity: number) => {
     if (quantity > 0) {
-      const productInCart = cart.find(([product]) => product.id === productID);
+      const productInCart = cart.find(([product]) => product._id === productID);
       if (productInCart) {
         const [product, currentQuantity] = productInCart;
         const difference = quantity - currentQuantity;
@@ -49,8 +49,8 @@ const CartPage: React.FC = () => {
     }
   };
 
-  const removeAllQuantity = (productID: number) => {
-    const productInCart = cart.find(([product]) => product.id === productID);
+  const removeAllQuantity = (productID: string) => {
+    const productInCart = cart.find(([product]) => product._id === productID);
     if (productInCart) {
       const [product, currentQuantity] = productInCart;
 
@@ -75,30 +75,23 @@ const CartPage: React.FC = () => {
     }
 
     const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
-    const userId: number = loggedInUser.id_user;
-    const totalValue = calculateTotal();
+    const userId: string = loggedInUser._id;
+    const items = cart.map(([product, quantity]) => ({
+      productId: product._id,
+      count: quantity,
+    }));
 
-    const values = {
-      userId,
-      value: totalValue,
-      items: cart.map(([product, quantity]) => ({
-        product,
-        quantity,
-      })),
-    };
-    console.log(values);
+    console.log(items);
 
     try {
-      await axios.post("http://localhost:3000/api/orders", values, {
-        headers: { "Content-Type": "application/json" },
-      });
+      await axios.post(
+        "http://localhost:3000/api/orders",
+        { userId, items },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       message.success("Zamówienie zostało złożone!");
-
-      cart.map(([product, _]) => {
-        removeAllQuantity(product.id);
-      });
-
+      cart.forEach(([product]) => removeAllQuantity(product._id));
       navigate("/");
     } catch (error) {
       message.error("Wystąpił błąd podczas składania zamówienia.");
@@ -113,7 +106,7 @@ const CartPage: React.FC = () => {
         dataSource={cart}
         renderItem={([product, quantity]) => {
           const isProductAvailable = products.some(
-            (availableProduct) => availableProduct.id === product.id
+            (availableProduct) => availableProduct._id === product._id
           );
           return (
             <List.Item>
@@ -132,14 +125,14 @@ const CartPage: React.FC = () => {
                     max={1000}
                     value={quantity}
                     onChange={(value: number | null) =>
-                      handleQuantityChange(product.id, value || 1)
+                      handleQuantityChange(product._id, value || 1)
                     }
                     disabled={!isProductAvailable}
                   />
                 </div>
                 <Button
                   type="dashed"
-                  onClick={() => removeAllQuantity(product.id)}
+                  onClick={() => removeAllQuantity(product._id)}
                   style={{ marginTop: "10px" }}
                 >
                   Usuń z koszyka

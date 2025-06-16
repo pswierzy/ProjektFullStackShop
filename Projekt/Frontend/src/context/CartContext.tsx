@@ -23,15 +23,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
-      const cartMap = new Map<number, [Product, number]>(
-        prevCart.map(([item, quantity]) => [item.id, [item, quantity]])
+      const cartMap = new Map<string, [Product, number]>(
+        prevCart.map(([item, quantity]) => [item._id, [item, quantity]])
       );
 
-      if (cartMap.has(product.id)) {
-        const [existingItem, quantity] = cartMap.get(product.id)!;
-        cartMap.set(product.id, [existingItem, quantity + 1]);
+      if (cartMap.has(product._id)) {
+        const [existingItem, quantity] = cartMap.get(product._id)!;
+        cartMap.set(product._id, [existingItem, quantity + 1]);
       } else {
-        cartMap.set(product.id, [product, 1]);
+        cartMap.set(product._id, [product, 1]);
       }
 
       return Array.from(cartMap.values());
@@ -41,7 +41,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const removeFromCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItemIndex = prevCart.findIndex(
-        ([item]) => item.id === product.id
+        ([item]) => item._id === product._id
       );
 
       if (existingItemIndex !== -1) {

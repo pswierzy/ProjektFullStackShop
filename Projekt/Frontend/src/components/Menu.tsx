@@ -5,6 +5,7 @@ import {
   UserOutlined,
   HomeOutlined,
   FileTextOutlined,
+  FolderOutlined,
 } from "@ant-design/icons";
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 const NavigationMenu = () => {
   const location = useLocation();
   const { cart } = useCart();
-  const isLoggedIn = localStorage.getItem("user"); // Prosta weryfikacja logowania
+  const isLoggedIn = localStorage.getItem("user");
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,7 +24,6 @@ const NavigationMenu = () => {
     setIsAdmin(loggedInUser?.role === "admin");
   }, []);
 
-  // Liczba produktów w koszyku
   const cartItemsCount = cart.reduce(
     (total, [_, quantity]) => total + quantity,
     0
@@ -34,6 +34,11 @@ const NavigationMenu = () => {
       label: <Link to="/">Strona główna</Link>,
       key: "/",
       icon: <HomeOutlined />,
+    },
+    {
+      label: <Link to="/categories">Kategorie</Link>, // Dodany nowy element
+      key: "/categories",
+      icon: <FolderOutlined />,
     },
     {
       label: (
@@ -65,7 +70,7 @@ const NavigationMenu = () => {
       key: "/register",
       icon: <UserOutlined />,
     },
-    isAdmin && {
+    {
       label: <Link to="/orders">Zamówienia</Link>,
       key: "/orders",
       icon: <FileTextOutlined />,

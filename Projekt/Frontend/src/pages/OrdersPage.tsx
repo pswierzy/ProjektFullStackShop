@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Table, Spin, Alert } from "antd";
-import { fetchOrders } from "../api"; // Import funkcji do pobierania zamówień
-import { Order } from "../types"; // Upewnij się, że masz typ Order zdefiniowany
+import { fetchOrders, fetchUserOrders } from "../api";
+import { Order, ItemSnapshot } from "../types";
 
 const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
-    setIsAdmin(loggedInUser?.role === "admin");
-  }, []);
 
   useEffect(() => {
     const loadOrders = async () => {
       try {
         setLoading(true);
-        const fetchedOrders = await fetchOrders();
-        setOrders(fetchedOrders);
+        const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
+        const userId = loggedInUser._id;
+
+        if (loggedInUser.role === "admin") {
+          const fetchedOrders = await fetchOrders();
+          setOrders(fetchedOrders);
+        } else if (userId) {
+          const userOrders = await fetchUserOrders(userId);
+          setOrders(userOrders);
+        }
       } catch (err) {
         setError("Nie udało się pobrać zamówień.");
       } finally {
@@ -34,31 +36,44 @@ const OrdersPage: React.FC = () => {
   const columns = [
     {
       title: "ID Zamówienia",
-      dataIndex: "id_order",
-      key: "id_order",
+      dataIndex: "_id",
+      key: "_id",
     },
     {
-      title: "ID Użytkownika",
-      dataIndex: "userId",
-      key: "userId",
+      title: "Użytkownik",
+      dataIndex: ["user", "name"],
+      key: "user",
     },
     {
-      title: "Wartość",
-      dataIndex: "value",
-      key: "value",
-      render: (value: number) => `${value.toFixed(2)} zł`,
+      title: "Data",
+      dataIndex: "date",
+      key: "date",
+      render: (date: Date) => new Date(date).toLocaleString(),
     },
     {
       title: "Produkty",
       dataIndex: "items",
       key: "items",
-      render: (items: { product: any; quantity: number }[]) =>
-        items.map(
-          (item, index) =>
-            `Produkt: ${item.product.title || item.product}, Ilość: ${
-              item.quantity
-            }${index < items.length - 1 ? ", " : ""}`
-        ),
+      render: (items: ItemSnapshot[]) => (
+        <ul>
+          {items.map((item, index) => (
+            <li key={index}>
+              {item.title} - {item.count} x ${item.price.toFixed(2)}
+            </li>
+          ))}
+        </ul>
+      ),
+    },
+    {
+      title: "Suma",
+      key: "total",
+      render: (record: Order) => {
+        const total = record.items.reduce(
+          (sum, item) => sum + item.price * item.count,
+          0
+        );
+        return `$${total.toFixed(2)}`;
+      },
     },
   ];
 
@@ -76,27 +91,16 @@ const OrdersPage: React.FC = () => {
 
   return (
     <div className="orders-container">
-      {isAdmin ? (
-        <div className="orders-page">
-          <h1>Lista zamówień</h1>
-          <Table
-            dataSource={orders}
-            columns={columns}
-            rowKey="id_order"
-            pagination={{ pageSize: 10 }}
-            bordered
-          />
-        </div>
-      ) : (
-        <div className="auth-page">
-          <Alert
-            message="Brak dostępu do tej strony!"
-            type="warning"
-            showIcon
-            style={{ textAlign: "center", fontSize: "18px" }}
-          />
-        </div>
-      )}
+      <div className="orders-page">
+        <h1>Lista zamówień</h1>
+        <Table
+          dataSource={orders}
+          columns={columns}
+          rowKey="_id"
+          pagination={{ pageSize: 10 }}
+          bordered
+        />
+      </div>
     </div>
   );
 };

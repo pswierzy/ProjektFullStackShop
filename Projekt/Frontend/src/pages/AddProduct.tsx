@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Alert, Form, Input, InputNumber, Button, message, Select } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { fetchCategories } from "../api";
+import { Category } from "../types";
 
 const { Option } = Select;
 
@@ -9,18 +11,31 @@ const AddProduct: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const loggedInUser = JSON.parse(localStorage.getItem("user") || "{}");
     setIsAdmin(loggedInUser?.role === "admin");
   }, []);
 
+  useEffect(() => {
+    const loadCategories = async () => {
+      const data = await fetchCategories();
+      setCategories(data);
+    };
+    loadCategories();
+  }, []);
+
   const onFinish = async (values: any) => {
     setLoading(true);
     try {
-      // Wyślij dane do backendu
-      await axios.post("http://localhost:3000/api/products", values, {
-        headers: { "Content-Type": "application/json" },
+      await axios.post("http://localhost:3000/api/products", {
+        title: values.title,
+        price: values.price,
+        description: values.description,
+        category: values.category,
+        image: values.image,
+        stock: values.stock || 0,
       });
 
       message.success("Produkt został dodany!");
@@ -69,9 +84,9 @@ const AddProduct: React.FC = () => {
           rules={[{ required: true, message: "Wybierz kategorię!" }]}
         >
           <Select placeholder="Wybierz kategorię">
-            <Option value="maszyny">Maszyny</Option>
-            <Option value="gry">Gry</Option>
-            <Option value="karty">Karty</Option>
+            {categories.map((category) => (
+              <Option value={category.name}>{category.name}</Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -84,35 +99,13 @@ const AddProduct: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          label="Ocena (wartość)"
-          name={["rating", "rate"]}
+          label="Ilość w magazynie"
+          name="stock"
           rules={[
-            {
-              type: "number",
-              min: 0,
-              max: 5,
-              message: "Ocena musi być między 0 a 5!",
-            },
+            { required: true, message: "Podaj obecną ilość w magazynie!" },
           ]}
         >
-          <InputNumber placeholder="Podaj ocenę" style={{ width: "100%" }} />
-        </Form.Item>
-
-        <Form.Item
-          label="Ocena (liczba opinii)"
-          name={["rating", "count"]}
-          rules={[
-            {
-              type: "number",
-              min: 0,
-              message: "Liczba opinii musi być dodatnia!",
-            },
-          ]}
-        >
-          <InputNumber
-            placeholder="Podaj liczbę opinii"
-            style={{ width: "100%" }}
-          />
+          <Input placeholder="0" />
         </Form.Item>
 
         <Form.Item>

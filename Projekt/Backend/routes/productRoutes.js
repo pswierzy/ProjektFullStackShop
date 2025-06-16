@@ -2,7 +2,6 @@ const express = require("express");
 const Product = require("../models/Product");
 const router = express.Router();
 
-// Pobierz wszystkie produkty
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
@@ -12,10 +11,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Pobierz pojedynczy produkt
 router.get("/:id", async (req, res) => {
   try {
-    const product = await Product.findOne({ id: req.params.id });
+    const product = await Product.findById(req.params.id);
     if (!product)
       return res.status(404).json({ message: "Produkt nie znaleziony" });
     res.json(product);
@@ -24,9 +22,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Dodaj nowy produkt
 router.post("/", async (req, res) => {
-  const { title, price, description, category, image, rating } = req.body;
+  const { title, price, description, category, image, stock } = req.body;
 
   const newProduct = new Product({
     title,
@@ -34,10 +31,8 @@ router.post("/", async (req, res) => {
     description,
     category,
     image,
-    rating: {
-      rate: parseFloat(rating?.rate) || 0,
-      count: parseInt(rating?.count) || 0,
-    },
+    stock: parseInt(stock) || 0,
+    ratings: [],
   });
 
   try {
@@ -49,15 +44,34 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Usuń produkt
+router.post("/:id/ratings", async (req, res) => {
+  const { userName, rate, comment } = req.body;
+
+  try {
+    const result = await Product.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          ratings: { userName, rate: parseInt(rate), comment },
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!result)
+      return res.status(404).json({ message: "Produkt nie znaleziony" });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   try {
-    const product = await Product.findOne({ id: req.params.id });
-    if (!product)
+    const result = await Product.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: "Produkt nie znaleziony" });
-    console.log(product);
-
-    await Product.deleteOne({ id: req.params.id });
+    }
     res.json({ message: "Produkt został usunięty" });
   } catch (err) {
     res.status(500).json({ message: err.message });

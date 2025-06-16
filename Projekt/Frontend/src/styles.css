@@ -266,6 +266,7 @@ h4 {
 }
 
 /* OrdersPage */
+
 .orders-container {
   display: flex;
   justify-content: center;
@@ -280,8 +281,12 @@ h4 {
   background-color: black;
   color: white;
   border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
   border: 3px solid gold;
+}
+
+.orders-page:hover {
+  box-shadow: 0 12px 24px rgba(255, 215, 0, 0.5);
 }
 
 .orders-page h1 {
@@ -319,4 +324,85 @@ h4 {
 
 .orders-page .ant-pagination-item :hover {
   background-color: white;
+}
+
+/* DRZEWO KATEGORII */
+
+.ant-tree {
+  background-color: #000;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.ant-tree-list-holder {
+  background-color: #000;
+}
+
+.ant-tree-treenode {
+  padding: 8px 0;
+  transition: all 0.3s;
+  color: #fff;
+}
+
+.ant-tree-treenode:hover {
+  background-color: rgba(255, 215, 0, 0.1); /* Subtelne złote podświetlenie */
+}
+
+.ant-tree-title {
+  color: #fff;
+}
+
+.ant-tree-switcher-icon,
+.ant-tree-icon__customize {
+  color: gold;
+}
+
+.ant-tree-indent-unit::before {
+  border-right: 1px solid #333;
+}
+
+.ant-tree-switcher {
+  color: gold;
+}
+
+.ant-tree-node-selected {
+  background-color: rgba(139, 0, 0, 0.7) !important; /* Ciemnoczerwony */
+  color: #fff;
+  border-radius: 4px;
+}
+
+.ant-tree-checkbox-inner {
+  background-color: #000;
+  border-color: gold;
+}
+
+/* Animacje */
+@keyframes treeSlideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+.ant-tree-child-tree {
+  animation: treeSlideDown 0.3s ease-out;
+}
+
+.ant-tree-node-content-wrapper {
+  transition: all 0.3s;
+}
+
+.ant-tree-node-content-wrapper:hover {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background-color: rgba(139, 0, 0, 0.7);
 }

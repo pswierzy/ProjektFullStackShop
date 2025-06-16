@@ -7,16 +7,22 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const onFinish = async (values: { username: string; password: string }) => {
+  const onFinish = async (values: { name: string; password: string }) => {
     setLoading(true);
-    const user = await loginUser(values.username, values.password);
+    const user = await loginUser(values.name, values.password);
     setLoading(false);
 
     if (user) {
       message.success("Zalogowano pomyślnie!");
-      localStorage.setItem("user", JSON.stringify(user));
+      const safeUserData = {
+        _id: user._id,
+        name: user.name,
+        role: user.role,
+      };
+
+      localStorage.setItem("user", JSON.stringify(safeUserData));
       navigate("/");
-      window.parent.location = window.parent.location.href;
+      window.location.reload();
     } else {
       message.error("Nieprawidłowa nazwa użytkownika lub hasło.");
     }
@@ -28,7 +34,7 @@ const LoginPage: React.FC = () => {
       <Form onFinish={onFinish}>
         <Form.Item
           label="Login"
-          name="username"
+          name="name"
           rules={[{ required: true, message: "Podaj nazwę użytkownika!" }]}
         >
           <Input />

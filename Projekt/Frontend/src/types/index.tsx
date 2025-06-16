@@ -1,29 +1,47 @@
+export interface Rating {
+  userName: string;
+  rate: number;
+  comment: string;
+}
+
 export interface Product {
-  id: number;
+  _id: string;
   title: string;
   price: number;
   description: string;
   category: string;
   image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+  stock: number;
+  ratings: Rating[];
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+  superset: string;
 }
 
 export interface User {
-  id: number;
-  username: string;
+  _id: string;
+  name: string;
   password: string;
   role: "user" | "admin";
 }
 
 export interface Order {
-  id: number;
-  userId: number;
-  value: number;
-  items: {
-    product: Product;
-    quantity: number;
-  }[];
+  _id: string;
+  user: UserSnapshot;
+  items: ItemSnapshot[];
+  date: Date;
+}
+
+export interface ItemSnapshot {
+  title: string;
+  price: number;
+  count: number;
+}
+
+export interface UserSnapshot {
+  name: string;
+  role: string;
 }

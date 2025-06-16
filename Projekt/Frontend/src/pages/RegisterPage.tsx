@@ -17,14 +17,15 @@ const RegisterPage: React.FC = () => {
 
   const onFinish = async (values: any) => {
     setLoading(true);
-    if (!values.role) values.role = "user";
+
     try {
-      // Wyślij dane do backendu
-      await axios.post("http://localhost:3000/api/users", values, {
-        headers: { "Content-Type": "application/json" },
+      await axios.post("http://localhost:3000/api/users", {
+        name: values.name,
+        password: values.password,
+        role: values.role || "user",
       });
 
-      message.success("Uzytkownik został zarejestrowany!");
+      message.success("Użytkownik został zarejestrowany!");
       navigate("/login");
     } catch (error) {
       message.error("Wystąpił błąd podczas rejestracji.");
@@ -39,7 +40,7 @@ const RegisterPage: React.FC = () => {
       <Form onFinish={onFinish}>
         <Form.Item
           label="Login"
-          name="username"
+          name="name"
           rules={[{ required: true, message: "Podaj nazwę użytkownika!" }]}
         >
           <Input />
@@ -69,7 +70,7 @@ const RegisterPage: React.FC = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={loading}>
-            Zaloguj się
+            Zarejestruj się
           </Button>
         </Form.Item>
       </Form>
